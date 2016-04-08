@@ -1,0 +1,10 @@
+<div ng-controller="ParkingController as vm">
+    <h1>{{vm.text}}Hello worlsssd</h1>
+    <input type="file" id="fileInput"/>
+    <div class="btn btn-primary" ng-click="vm.Start()">Start</div>
+    <div id="fileDisplayArea"></div>
+    <canvas id="line" class="chart chart-line" chart-data="vm.data"
+      chart-labels="vm.labels" chart-legend="true" chart-series="vm.series"
+      chart-click="vm.onClick" >
+    </canvas>
+</div>
