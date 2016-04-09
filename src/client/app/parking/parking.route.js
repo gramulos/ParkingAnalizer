@@ -19,8 +19,7 @@
                     url: '/',
                     templateUrl: 'app/parking/parking.html',
                     controller: 'ParkingController',
-                    controllerAs: 'vm',
-                    title: 'Parking'
+                    controllerAs: 'vm'
                 }
             }
         ];
