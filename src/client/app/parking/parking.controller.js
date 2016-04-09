@@ -12,15 +12,21 @@
 
         var fileInput = document.getElementById('fileInput');
 		var fileDisplayArea = document.getElementById('fileDisplayArea');
+        var filename = document.getElementById('filename');
 
         vm.labels = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00"];
         vm.series = ['Car counts'];
+        vm.fileData;
         vm.data = [
           [65, 59, 80, 81, 56, 55, 40]
         ];
         vm.onClick = function (points, evt) {
           console.log(points, evt);
         };
+
+        vm.koko = function () {
+            console.log('aa ')
+        }
 
         vm.Start = function () {
             var file = fileInput.files[0];

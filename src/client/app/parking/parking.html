@@ -1,10 +1,17 @@
-<div ng-controller="ParkingController as vm">
-    <h1>{{vm.text}}Hello worlsssd</h1>
-    <input type="file" id="fileInput"/>
-    <div class="btn btn-primary" ng-click="vm.Start()">Start</div>
-    <div id="fileDisplayArea"></div>
-    <canvas id="line" class="chart chart-line" chart-data="vm.data"
-      chart-labels="vm.labels" chart-legend="true" chart-series="vm.series"
-      chart-click="vm.onClick" >
-    </canvas>
+<div class="row noMargin">
+    <div class="container mainApp" ng-controller="ParkingController as vm">
+        <h1>{{vm.text}}Parking analizer</h1>
+        <label class="fileContainer">
+            <i class="glyphicon glyphicon-cloud-upload" />
+            <input type="file" id="fileInput" ng-model="vm.inputFile" ng-change="vm.Start"/>
+        </label>
+        <div id="filename"></div>
+        <div class="btn btn-primary" ng-click="vm.Start()">Start</div>
+        <div id="fileDisplayArea"></div>
+        <div>{{vm.fileData}}</div>
+        <canvas id="line" class="col-lg-12 chart chart-line" chart-data="vm.data"
+          chart-labels="vm.labels" chart-legend="true" chart-series="vm.series"
+          chart-click="vm.onClick" >
+        </canvas>
+    </div>
 </div>
