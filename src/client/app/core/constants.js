@@ -6,6 +6,10 @@
         .module('app.core')
         .constant('toastr', toastr)
         .constant('moment', moment)
+        .constant('driveOptions', {
+            ENTER_TO_PARKING: 'ENTER_TO_PARKING',
+            LEAVE_PARKING: 'LEAVE_PARKING'
+        })
         .constant('highchartConfig', {
             options: {
               chart: {

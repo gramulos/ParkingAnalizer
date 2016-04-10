@@ -12,11 +12,11 @@
 
         vm.chartConfig = highchartConfig;
         vm.notificationMessage = 'Please select file for start';
-        
+
         var fileInput = document.getElementById('fileInput');
 
-        function analize (input) {
-            var graphOptions = ParkingService.analize(input);
+        function analize (inputData) {
+            var graphOptions = ParkingService.analize(inputData);
             $scope.$apply(function () {
                 vm.chartConfig.xAxis.categories = graphOptions.timeList;
                 vm.chartConfig.series[0].data = graphOptions.carCountList;
@@ -27,16 +27,32 @@
         fileInput.addEventListener('change', function (e) {
 			var file = fileInput.files[0];
 			var textType = /text.*/;
-            $scope.$apply(function () {
-                vm.notificationMessage = 'Selected file: ' + fileInput.files[0].name;
-            });
+            if (fileInput.files[0]) {
+                $scope.$apply(function () {
+                    vm.notificationMessage = 'Selected file: ' + fileInput.files[0].name;
+                });
+            } else {
+                $scope.$apply(function () {
+                    vm.notificationMessage = 'File is not selected';
+                });
+            }
 
 			if (file && file.type.match(textType)) {
 				var reader = new FileReader();
 
 				reader.onload = function(e) {
 					var data = reader.result;
-                    analize(data);
+                    var validationErrors = ParkingService.validateInput(data);
+                    if (validationErrors.length === 0) {
+                        analize(data);
+                    } else {
+                        $scope.$apply(function() {
+                            vm.notificationMessage = '';
+                            validationErrors.map(function (error) {
+                                vm.notificationMessage = vm.notificationMessage + error + '\n';
+                            });
+                        });
+                    }
 				}
 				reader.readAsText(file);
 			} else {
