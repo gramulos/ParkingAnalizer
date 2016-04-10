@@ -14,7 +14,7 @@
 
     var config = {
         appErrorPrefix: '[parking Error] ',
-        appTitle: 'parking'
+        appTitle: 'Parking Analizer'
     };
 
     core.value('config', config);
@@ -28,7 +28,7 @@
             $logProvider.debugEnabled(true);
         }
         exceptionHandlerProvider.configure(config.appErrorPrefix);
-        routerHelperProvider.configure({docTitle: config.appTitle + ': '});
+        routerHelperProvider.configure({docTitle: config.appTitle});
     }
 
 })();

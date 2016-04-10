@@ -5,87 +5,45 @@
         .module('app.parking')
         .controller('ParkingController', ParkingController);
 
-    ParkingController.$inject = ['logger', '$scope'];
+    ParkingController.$inject = ['logger', '$scope', 'ParkingService', 'highchartConfig'];
     /* @ngInject */
-    function ParkingController(logger, $scope) {
+    function ParkingController(logger, $scope, ParkingService, highchartConfig) {
         var vm = this;
 
+        vm.chartConfig = highchartConfig;
+        vm.notificationMessage = 'Please select file for start';
+        
         var fileInput = document.getElementById('fileInput');
-        var inputHeader = document.getElementById('inputHeader');
-        var filename = document.getElementById('fileName');
-        vm.labels = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"];
-        vm.series = ['Car counts'];
-        vm.fileData;
-        vm.filteredData = [];
-        vm.data = [
-          [65, 59, 80, 81, 56, 55, 40, 55, 66, 22, 0, 33]
-        ];
-        vm.onClick = function (points, evt) {
-          console.log(points, evt);
-        };
 
-        vm.Analize = function () {
-            vm.labels = ["00:00"]
-            var chartData = [0]
-            vm.filteredData.map(function (item, index) {
-                vm.labels.push(item.time)
-                console.log(index);
-                if (item.type === 'IN') {
-                    chartData.push(chartData[index] + 1);
-                } else {
-                    chartData.push(chartData[index] - 1);
-                }
-            })
-
-            vm.data[0] = chartData;
-            console.log(vm.data[0]);
+        function analize (input) {
+            var graphOptions = ParkingService.analize(input);
+            $scope.$apply(function () {
+                vm.chartConfig.xAxis.categories = graphOptions.timeList;
+                vm.chartConfig.series[0].data = graphOptions.carCountList;
+                vm.notificationMessage = 'Analize complete successfull';
+            });
         }
 
-        fileInput.addEventListener('change', function(e) {
+        fileInput.addEventListener('change', function (e) {
 			var file = fileInput.files[0];
 			var textType = /text.*/;
-            inputHeader.innerText = 'File Selected';
+            $scope.$apply(function () {
+                vm.notificationMessage = 'Selected file: ' + fileInput.files[0].name;
+            });
 
-			if (file.type.match(textType)) {
+			if (file && file.type.match(textType)) {
 				var reader = new FileReader();
 
 				reader.onload = function(e) {
-					vm.fileData = reader.result.replace(/(?:\r\n|\r|\n)/g, ',').split(',');
-                    var itemsCount = vm.fileData.length;
-                    for (var i=0; i<itemsCount; i++) {
-                        var itemTime = vm.fileData[i].split(':');
-
-                        if (i % 2 === 0) {
-                            vm.filteredData.push({
-                                points: parseInt(itemTime[0]*60 + itemTime[1], 10),
-                                time: vm.fileData[i],
-                                type: 'IN'
-                            });
-                        } else {
-                            vm.filteredData.push({
-                                points: parseInt(itemTime[0]*60 + itemTime[1], 10),
-                                time: vm.fileData[i],
-                                type: 'OUT'
-                            });
-                        }
-
-                        vm.filteredData.sort(sotrtASC);
-                    }
+					var data = reader.result;
+                    analize(data);
 				}
-
 				reader.readAsText(file);
 			} else {
-				vm.fileData = "File not supported!";
+                $scope.$apply(function () {
+    				vm.notificationMessage = 'File is not supported!';
+                });
 			}
 		});
-
-        function sotrtASC(first, second) {
-          if (first.points < second.points)
-            return -1;
-          else if (first.points > second.points)
-            return 1;
-          else
-            return 0;
-        }
     }
 })();

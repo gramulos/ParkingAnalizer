@@ -3,7 +3,8 @@
 
     angular.module('app.parking', [
         'app.core',
-        'chart.js'
+        'chart.js',
+        'highcharts-ng'
       ]);
 
 })();
