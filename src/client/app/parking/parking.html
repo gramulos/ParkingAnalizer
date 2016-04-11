@@ -9,7 +9,9 @@
                 </div>
             </div>
         </div>
-        <div class="notificationBar">{{vm.notificationMessage}}</div>
+        <ul class="notificationBar">
+            <li ng-repeat="message in vm.notificationMessage">{{message}}</li>
+        </ul>
         <highchart id="chart1" config="vm.chartConfig" />
     </div>
 </div>

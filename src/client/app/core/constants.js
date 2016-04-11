@@ -6,28 +6,37 @@
         .module('app.core')
         .constant('toastr', toastr)
         .constant('moment', moment)
-        .constant('driveOptions', {
+        .constant('DriveOptions', {
             ENTER_TO_PARKING: 'ENTER_TO_PARKING',
             LEAVE_PARKING: 'LEAVE_PARKING'
         })
+        .constant('TimeFormat', {
+            rgFormat: /^([0-9]{2}:[0-9]{2})$/
+        })
+        .constant('Messages', {
+            START_MESSAGE: 'Please select file to start.',
+            FILE_IS_NOT_SELECTED: 'File is not selected.',
+            FILE_IS_NOT_SUPPORTED: 'File is not supported. Text files supported only.',
+            ANALIZE_SUCCESS: 'Analize complete successfull.'
+        })
         .constant('highchartConfig', {
             options: {
-              chart: {
-                type: 'spline'
-              },
-              plotOptions: {
-                  spline: {
-                      lineWidth: 2,
-                      states: {
-                          hover: {
-                              lineWidth: 3
-                          }
-                      },
-                      marker: {
-                          enabled: false
-                      }
-                  }
-              }
+                chart: {
+                    type: 'spline'
+                },
+                plotOptions: {
+                    spline: {
+                        lineWidth: 2,
+                        states: {
+                            hover: {
+                                lineWidth: 3
+                            }
+                        },
+                        marker: {
+                            enabled: false
+                        }
+                    }
+                }
             },
             xAxis: {
                 categories: ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00']
@@ -45,10 +54,10 @@
                 data: [65, 59, 80, 81, 56, 55, 40, 55, 66, 22, 0, 33]
             }],
             title: {
-              text: 'Dependency graph of cars count on time'
+                text: 'Dependency graph of cars count on time'
             },
             credits: {
-              enabled: true
+                enabled: true
             },
             loading: false,
             size: {}

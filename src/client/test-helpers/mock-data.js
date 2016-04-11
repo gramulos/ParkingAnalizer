@@ -2,8 +2,13 @@
 var mockData = (function() {
     return {
         getMockPeople: getMockPeople,
-        getMockStates: getMockStates
+        getMockStates: getMockStates,
+        getMockParkingData: getMockParkingData
     };
+
+    function getMockParkingData() {
+        return '10:35,10:45\n10:45,11:14\n10:33,11:45\n09:50,18:00\n10:30,10:45\n10:45,23:30';
+    }
 
     function getMockStates() {
         return [

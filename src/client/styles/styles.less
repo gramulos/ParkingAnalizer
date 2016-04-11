@@ -11,11 +11,27 @@ html, body {
 }
 
 .notificationBar {
+    list-style: none;
     width: 100%;
     margin: 15px 0;
     background-color: #FFC97E;
     padding: 15px;
     border-radius: 2px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.notificationBar li {
+    padding: 5px 0;
+}
+
+.notificationBar::-webkit-scrollbar {
+    width: 7px;
+}
+
+.notificationBar::-webkit-scrollbar-thumb {
+  background-color: #e2af69;
+  outline: 1px solid #e2af69;
 }
 
 .mainApp h1{
