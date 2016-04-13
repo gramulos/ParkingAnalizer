@@ -21,7 +21,7 @@
                        enterStringTime[1] > 59 || enterStringTime[1] < 0  ||
                        leaveStringTime[0] > 23 || leaveStringTime[0] < 0  ||
                        leaveStringTime[1] > 59 || leaveStringTime[1] < 0  ||
-                       enterTimeInMinutes > leaveTimeInMinutes;
+                       enterTimeInMinutes >= leaveTimeInMinutes;
             }
         };
 
