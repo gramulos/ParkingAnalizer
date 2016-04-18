@@ -8,30 +8,62 @@
     ParkingService.$inject = ['logger', 'DriveOptions', 'TimeHelper', 'TimeFormat', 'ParkingEvent'];
     /* @ngInject */
     function ParkingService(logger, DriveOptions, TimeHelper, TimeFormat, ParkingEvent) {
-        var service = {
+        let service = {
             analize: analize,
             validateInput: validateInput
         };
 
         function analize(inputData) {
-            var inputTimeList = parseInput(inputData);
-            var eventsTimeline = inputTimeList.sort(ParkingEvent.sortAsc);
-            var eventList = createEventList(eventsTimeline);
-            var graphOptions = generateGraph(eventList);
-            return graphOptions;
+            const inputTimeList = parseInput(inputData).sort(ParkingEvent.sortAsc);
+            const eventList = createEventList(inputTimeList);
+            const timeline = createTimeline(eventList);
+            const peak = findPeak(timeline);
+            return {
+                maxCarCount: peak.carCount,
+                peakTimes: peak.peakTimes,
+                graphData: timeline
+            };
         }
 
-        function generateGraph (eventList) {
-            var timeList = ['00:00'];
-            var carCountList = [0];
-            for (var time in eventList){
-                timeList.push(time);
-                carCountList.push(carCountList[carCountList.length - 1] + eventList[time]);
+        function findPeak(timeline) {
+            let peakTimes = [{start: timeline[0][0]}];
+            let maxCarCount = timeline[0][1];
+            for (let i = 1; i < timeline.length; i++) {
+                const eventTime = timeline[i][0];
+                const eventCars = timeline[i][1];
+
+                if ( eventCars > maxCarCount ) {
+                    maxCarCount = eventCars;
+                    peakTimes = [{
+                        start: getPeackTime(eventTime)
+                    }];
+                } else if ( eventCars === maxCarCount ) {
+                    const prevCarCount = timeline[i - 1][1];
+                    if (prevCarCount !== eventCars) {
+                        peakTimes.push({start: getPeackTime(eventTime)});
+                    }
+                } else if (!peakTimes[peakTimes.length - 1].end) {
+                    peakTimes[peakTimes.length - 1].end = getPeackTime(eventTime)
+                }
             }
             return {
-                timeList: timeList,
-                carCountList: carCountList
-            };
+                carCount: maxCarCount,
+                peakTimes: peakTimes
+            }
+        }
+
+        function getPeackTime(milliseconds) {
+            return TimeHelper.toTimeFromMilliseconds(milliseconds).hour + ':' + TimeHelper.toTimeFromMilliseconds(milliseconds).minute;
+        }
+
+        function createTimeline(eventList) {
+            const dayStart = TimeHelper.toDateMilliseconds('00:00:001');
+            let timeline = [[dayStart, 0]];
+            for (let time in eventList) {
+                let carsAtTime = timeline[timeline.length - 1][1] + eventList[time];
+                timeline.push([TimeHelper.toDateMilliseconds(time), carsAtTime]);
+            }
+            return timeline;
         }
 
         //Create list of events at the point of a time with count of entered and left cars
@@ -55,10 +87,10 @@
 
         //Check input data for completeness and validity
         function validateInput(inputData) {
-            var validationErrors = [];
-            var lines = inputData.split('\n');
+            let validationErrors = [];
+            let lines = inputData.split('\n');
             lines.forEach(function (line, index) {
-                var times = transformToArray(line);
+                let times = transformToArray(line);
                 //Checking inputs for validity. Inputs must match time format hh:mm
                 if (!TimeFormat.rgFormat.test(times[0]) || !TimeFormat.rgFormat.test(times[1]) || TimeHelper.validateTime(times[0], times[1])) {
                     validationErrors.push('Invalid input at line ' + (index + 1) +  ' for times ' + line + ': Time is not in valid format.');
@@ -74,9 +106,9 @@
         }
 
         function parseInput(inputData) {
-            var inputTimeList = transformToArray(inputData);
+            let inputTimeList = transformToArray(inputData);
             return inputTimeList.map(function (time, index) {
-                var itemTime = time.split(':');
+                let itemTime = time.split(':');
                 if (index % 2 === 0) {
                     return ParkingEvent.createEnterEvent({points: TimeHelper.toMinutes(itemTime)});
                 } else {

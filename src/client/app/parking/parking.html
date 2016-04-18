@@ -13,5 +13,12 @@
             <li ng-repeat="message in vm.notificationMessage">{{message}}</li>
         </ul>
         <highchart id="chart1" config="vm.chartConfig" />
+        <div class="peakTimes" ng-show="vm.peakTimes">
+            <h3>Analize results</h3>
+            <p>Maximum cars at peak time: {{vm.carsAtPeakTime}}</p>
+            <ul>
+                <li ng-repeat="peakTime in vm.peakTimes">Peak times: {{peakTime.start}} - {{peakTime.end}}</li>
+            </ul>
+        </div>
     </div>
 </div>

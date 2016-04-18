@@ -21,9 +21,6 @@
         })
         .constant('highchartConfig', {
             options: {
-                chart: {
-                    type: 'spline'
-                },
                 plotOptions: {
                     spline: {
                         lineWidth: 2,
@@ -36,30 +33,46 @@
                             enabled: false
                         }
                     }
+                },
+                scrollbar : {
+                    enabled : false
+                },
+                navigator: {
+                    enabled: true,
+                    adaptToUpdatedData: true
+                },
+                rangeSelector: {
+                    inputEnabled: false,
+                    buttonTheme: {
+                        visibility: 'hidden'
+                    },
+                    labelStyle: {
+                        visibility: 'hidden'
+                    }
                 }
             },
-            xAxis: {
-                categories: ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00']
-            },
             yAxis: {
-                title: {
-                    text: 'Count'
-                },
+                plotLines: [{
+                    value: 81,
+                    color: 'red',
+                    dashStyle: 'line',
+                    width: 1,
+                    label: {
+                        text: 'Maximum cars count: 81'
+                    }
+                }],
                 minorGridLineWidth: 0,
                 gridLineWidth: 0,
                 alternateGridColor: null
             },
+            useHighStocks: true,
             series: [{
                 name: 'Cars',
-                data: [65, 59, 80, 81, 56, 55, 40, 55, 66, 22, 0, 33]
+                data: [[1460973636622,65], [1460973736622,59], [1460973836622,80], [1460973936622,81], [1460974036622,56], [1460974136622,55], [1460974236622,40], [1460974336622,55], [1460974436622,66], [1460974536622,22], [1460974636622,33], [1460974736622,0]],
+                step: true
             }],
             title: {
                 text: 'Dependency graph of cars count on time'
-            },
-            credits: {
-                enabled: true
-            },
-            loading: false,
-            size: {}
+            }
         });
 })();

@@ -9,7 +9,8 @@
     /* @ngInject */
     function ParkingController($scope, logger, ParkingService, highchartConfig, Messages) {
         var vm = this;
-
+        vm.peakTimes;
+        vm.carsAtPeakTime = 0;
         vm.chartConfig = highchartConfig;
         vm.notificationMessage = [Messages.START_MESSAGE];
 
@@ -52,9 +53,13 @@
         function analize (inputData) {
             var graphOptions = ParkingService.analize(inputData);
             $scope.$apply(function () {
-                vm.chartConfig.xAxis.categories = graphOptions.timeList;
-                vm.chartConfig.series[0].data = graphOptions.carCountList;
+                vm.chartConfig.series[0].data = graphOptions.graphData;
+                vm.chartConfig.options.selected = graphOptions.graphData.length;
+                vm.carsAtPeakTime = graphOptions.maxCarCount;
+                vm.chartConfig.yAxis.plotLines[0].value = graphOptions.maxCarCount;
+                vm.chartConfig.yAxis.plotLines[0].label.text = 'Maximum cars count: ' + graphOptions.maxCarCount;
                 vm.notificationMessage = [Messages.ANALIZE_SUCCESS];
+                vm.peakTimes = graphOptions.peakTimes;
             });
         }
     }
