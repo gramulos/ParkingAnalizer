@@ -5,19 +5,22 @@
             <div class="col-xs-12">
                 <div class="gBtn fileContainer">
                     <span>Select File</span>
-                    <input type="file" id="fileInput"/>
+                    <input type="file" id="fileInput"></input>
                 </div>
             </div>
         </div>
         <ul class="notificationBar">
             <li ng-repeat="message in vm.notificationMessage">{{message}}</li>
         </ul>
-        <highchart id="chart1" config="vm.chartConfig" />
+        <highchart id="chart1" config="vm.chartConfig"></highchart>
         <div class="peakTimes" ng-show="vm.peakTimes">
             <h3>Analyze results</h3>
             <p><b>Maximum cars at peak time:</b> {{vm.carsAtPeakTime}}</p>
             <ul><b>Peak times:</b>
-                <li ng-repeat="peakTime in vm.peakTimes"><i class="glyphicon glyphicon-flag"/>{{peakTime.start}} - {{peakTime.end}}</li>
+                <li ng-repeat="peakTime in vm.peakTimes">
+                    <i class="glyphicon glyphicon-flag"></i>
+                    {{peakTime.start}} - {{peakTime.end}}
+                </li>
             </ul>
         </div>
         <div class="footer">
