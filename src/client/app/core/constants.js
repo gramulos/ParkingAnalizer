@@ -17,7 +17,7 @@
             START_MESSAGE: 'Please select file to start.',
             FILE_IS_NOT_SELECTED: 'File is not selected.',
             FILE_IS_NOT_SUPPORTED: 'File is not supported. Text files supported only.',
-            ANALIZE_SUCCESS: 'Analize complete successfull.'
+            ANALIZE_SUCCESS: 'Analyze complete successfull.'
         })
         .constant('highchartConfig', {
             options: {

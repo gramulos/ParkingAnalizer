@@ -9,8 +9,8 @@
     /* @ngInject */
     function ParkingController($scope, logger, ParkingService, highchartConfig, Messages) {
         var vm = this;
-        vm.peakTimes;
-        vm.carsAtPeakTime = 0;
+        vm.peakTimes = [{start: '10:05', end: '10:07'}];
+        vm.carsAtPeakTime = 81;
         vm.chartConfig = highchartConfig;
         vm.notificationMessage = [Messages.START_MESSAGE];
 
