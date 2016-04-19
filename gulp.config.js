@@ -1,6 +1,5 @@
 module.exports = function() {
     var client = './src/client/';
-    var server = './src/server/';
     var clientApp = client + 'app/';
     var report = './report/';
     var root = './';
@@ -46,7 +45,6 @@ module.exports = function() {
         less: client + 'styles/styles.less',
         report: report,
         root: root,
-        server: server,
         source: 'src/',
         stubsjs: [
             bower.directory + 'angular-mocks/angular-mocks.js',
@@ -94,34 +92,8 @@ module.exports = function() {
         ],
 
         /**
-         * specs.html, our HTML spec runner
-         */
-        specRunner: client + specRunnerFile,
-        specRunnerFile: specRunnerFile,
-
-        /**
-         * The sequence of the injections into specs.html:
-         *  1 testlibraries
-         *      mocha setup
-         *  2 bower
-         *  3 js
-         *  4 spechelpers
-         *  5 specs
-         *  6 templates
-         */
-        testlibraries: [
-            nodeModules + '/mocha/mocha.js',
-            nodeModules + '/chai/chai.js',
-            nodeModules + '/sinon-chai/lib/sinon-chai.js'
-        ],
-        specHelpers: [client + 'test-helpers/*.js'],
-        specs: [clientApp + '**/*.spec.js'],
-        serverIntegrationSpecs: [client + '/tests/server-integration/**/*.spec.js'],
-
-        /**
          * Node settings
          */
-        nodeServer: server + 'app.js',
         defaultPort: '8001'
     };
 
@@ -137,38 +109,5 @@ module.exports = function() {
         return options;
     };
 
-    /**
-     * karma settings
-     */
-    config.karma = getKarmaOptions();
-
     return config;
-
-    ////////////////
-
-    function getKarmaOptions() {
-        var options = {
-            files: [].concat(
-                bowerFiles,
-                config.specHelpers,
-                clientApp + '**/*.module.js',
-                clientApp + '**/*.js',
-                temp + config.templateCache.file,
-                config.serverIntegrationSpecs
-            ),
-            exclude: [],
-            coverage: {
-                dir: report + 'coverage',
-                reporters: [
-                    // reporters not supporting the `file` property
-                    {type: 'html', subdir: 'report-html'},
-                    {type: 'lcov', subdir: 'report-lcov'},
-                    {type: 'text-summary'} //, subdir: '.', file: 'text-summary.txt'}
-                ]
-            },
-            preprocessors: {}
-        };
-        options.preprocessors[clientApp + '**/!(*.spec)+(.js)'] = ['coverage'];
-        return options;
-    }
 };

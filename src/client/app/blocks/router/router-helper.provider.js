@@ -22,9 +22,9 @@
         };
 
         this.$get = RouterHelper;
-        RouterHelper.$inject = ['$location', '$rootScope', '$state', 'logger'];
+        RouterHelper.$inject = ['$location', '$rootScope', '$state'];
         /* @ngInject */
-        function RouterHelper($location, $rootScope, $state, logger) {
+        function RouterHelper($location, $rootScope, $state) {
             var handlingStateChangeError = false;
             var hasOtherwise = false;
             var stateCounts = {
@@ -73,7 +73,6 @@
                         var msg = 'Error routing to ' + destination + '. ' +
                             (error.data || '') + '. <br/>' + (error.statusText || '') +
                             ': ' + (error.status || '');
-                        logger.warning(msg, [toState]);
                         $location.path('/');
                     }
                 );

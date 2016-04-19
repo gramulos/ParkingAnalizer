@@ -5,9 +5,9 @@
         .module('app.parking')
         .factory('ParkingService', ParkingService);
 
-    ParkingService.$inject = ['logger', 'DriveOptions', 'TimeHelper', 'TimeFormat', 'ParkingEvent'];
+    ParkingService.$inject = ['DriveOptions', 'TimeHelper', 'TimeFormat', 'ParkingEvent'];
     /* @ngInject */
-    function ParkingService(logger, DriveOptions, TimeHelper, TimeFormat, ParkingEvent) {
+    function ParkingService(DriveOptions, TimeHelper, TimeFormat, ParkingEvent) {
         function parseInput(inputData) {
             const inputTimeList = transformToArray(inputData);
             return inputTimeList.map(function (time, index) {

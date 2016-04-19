@@ -5,9 +5,9 @@
         .module('app.parking')
         .controller('ParkingController', ParkingController);
 
-    ParkingController.$inject = ['$scope', 'logger', 'ParkingService', 'highchartConfig', 'Messages'];
+    ParkingController.$inject = ['$scope', 'ParkingService', 'highchartConfig', 'Messages'];
     /* @ngInject */
-    function ParkingController($scope, logger, ParkingService, highchartConfig, Messages) {
+    function ParkingController($scope, ParkingService, highchartConfig, Messages) {
         var vm = this;
         vm.peakTimes = [{start: '10:05', end: '10:07'}];
         vm.carsAtPeakTime = 81;
