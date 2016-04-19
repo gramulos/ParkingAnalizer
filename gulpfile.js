@@ -6,6 +6,7 @@ var glob = require('glob');
 var gulp = require('gulp');
 var path = require('path');
 var _ = require('lodash');
+var cleanCSS = require('gulp-clean-css');
 var $ = require('gulp-load-plugins')({lazy: true});
 
 var colors = $.util.colors;
@@ -188,7 +189,7 @@ gulp.task('optimize', ['inject'], function() {
         .pipe(assets) // Gather all assets from the html with useref
         // Get the css
         .pipe(cssFilter)
-        .pipe($.minifyCss())
+        .pipe(cleanCSS({compatibility: 'ie8'}))
         .pipe(cssFilter.restore())
         // Get the custom javascript
         .pipe(jsAppFilter)

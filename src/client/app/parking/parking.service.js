@@ -9,16 +9,16 @@
     /* @ngInject */
     function ParkingService(DriveOptions, TimeHelper, TimeFormat, ParkingEvent) {
         function parseInput(inputData) {
-            const inputTimeList = transformToArray(inputData);
+            var inputTimeList = transformToArray(inputData);
             return inputTimeList.map(function (time, index) {
-                const itemTime = time.split(':');
+                var itemTime = time.split(':');
                 if (index % 2 === 0) {
                     return ParkingEvent.createEnterEvent({points: TimeHelper.toMinutes(itemTime)});
                 } else {
                     return ParkingEvent.createLeaveEvent({points: TimeHelper.toMinutes(itemTime)});
                 }
             });
-        };
+        }
 
         //Create list of events at the point of a time with count of entered and left cars
         function createEventList (eventsTimeline) {
@@ -37,32 +37,34 @@
 
                 return allEvents;
             }, {});
-        };
+        }
 
         function createTimeline(eventList) {
-            const dayStart = TimeHelper.toDateMilliseconds('00:00:001');
+            var dayStart = TimeHelper.toDateMilliseconds('00:00:001');
             var timeline = [[dayStart, 0]];
             for (var time in eventList) {
-                const carsAtTime = timeline[timeline.length - 1][1] + eventList[time];
-                timeline.push([TimeHelper.toDateMilliseconds(time), carsAtTime]);
+                if (eventList.hasOwnProperty(time)) {
+                    var carsAtTime = timeline[timeline.length - 1][1] + eventList[time];
+                    timeline.push([TimeHelper.toDateMilliseconds(time), carsAtTime]);
+                }
             }
             return timeline;
-        };
+        }
 
         function findPeak(timeline) {
             var peakTimes = [{start: timeline[0][0]}];
             var maxCarCount = timeline[0][1];
             for (var i = 1; i < timeline.length; i++) {
-                const eventTime = timeline[i][0];
-                const eventCars = timeline[i][1];
+                var eventTime = timeline[i][0];
+                var eventCars = timeline[i][1];
 
-                if ( eventCars > maxCarCount ) {
+                if (eventCars > maxCarCount) {
                     maxCarCount = eventCars;
                     peakTimes = [{
                         start: getPeackTime(eventTime)
                     }];
-                } else if ( eventCars === maxCarCount ) {
-                    const prevCarCount = timeline[i - 1][1];
+                } else if (eventCars === maxCarCount) {
+                    var prevCarCount = timeline[i - 1][1];
                     if (prevCarCount !== eventCars) {
                         peakTimes.push({start: getPeackTime(eventTime)});
                     }
@@ -73,30 +75,30 @@
             return {
                 carCount: maxCarCount,
                 peakTimes: peakTimes
-            }
-        };
+            };
+        }
 
         function getPeackTime(milliseconds) {
             return TimeHelper.toTimeFromMilliseconds(milliseconds).hour +
             ':' + TimeHelper.toTimeFromMilliseconds(milliseconds).minute;
-        };
+        }
 
         function analize(inputData) {
-            const inputTimeList = parseInput(inputData).sort(ParkingEvent.sortAsc);
-            const eventList = createEventList(inputTimeList);
-            const timeline = createTimeline(eventList);
-            const peak = findPeak(timeline);
+            var inputTimeList = parseInput(inputData).sort(ParkingEvent.sortAsc);
+            var eventList = createEventList(inputTimeList);
+            var timeline = createTimeline(eventList);
+            var peak = findPeak(timeline);
             return {
                 maxCarCount: peak.carCount,
                 peakTimes: peak.peakTimes,
                 graphData: timeline
             };
-        };
+        }
 
         //Write all date in one line and then split it into array of times
         function transformToArray(inputData) {
             return inputData.replace(/(?:\r\n|\r|\n)/g, ',').replace(/ /g,'').split(',');
-        };
+        }
 
         //Check input data for compvareness and validity
         function validateInput(inputData) {
@@ -111,9 +113,9 @@
                 }
             });
             return validationErrors;
-        };
+        }
 
-        const service = {
+        var service = {
             analize: analize,
             validateInput: validateInput
         };

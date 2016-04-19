@@ -24,8 +24,8 @@
                        enterTimeInMinutes >= leaveTimeInMinutes;
             },
             toDateMilliseconds: function(time) {
-                const today = new Date();
-                const datetime = new Date(today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + ' ' + time + '+0000');
+                var today = new Date();
+                var datetime = new Date(today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + ' ' + time + '+0000');
                 return datetime.getTime();
             },
             toTimeFromMilliseconds: function(milliseconds) {
@@ -37,7 +37,12 @@
                 minute = minute % 60;
                 day = Math.floor(hour / 24);
                 hour = hour % 24;
-                return { day: timePad(day), hour: timePad(hour), minute: timePad(minute), second: timePad(second) };
+                return {
+                    day: timePad(day),
+                    hour: timePad(hour),
+                    minute: timePad(minute),
+                    second: timePad(second)
+                };
             }
         };
 
